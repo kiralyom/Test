@@ -1,0 +1,96 @@
+local plrs = game:GetService("Players")
+local plr = plrs.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+local spaceHeld = UserInputService:IsKeyDown(Enum.KeyCode.Space)
+local n = 0
+local TOGGLED = false
+local x = 0
+local y = 0
+local z = 0
+
+game:GetService("RunService").Stepped:Connect(
+    function()
+        local rutpart = Instance.new("Part", game.Players.LocalPlayer.Character)
+        rutpart.Transparency = 1
+        rutpart.Name = "HumanoidRootPar"
+        rutpart.Position = Vector3.new(0, 0, 0)
+        rutpart.CanCollide = false
+        local CamCFrame = workspace.Camera.CFrame
+        local CamLook = CamCFrame.LookVector
+        local Angle = -math.atan2(CamLook.Z, CamLook.X) + math.rad(0)
+        local TS = game:GetService("TweenService")
+        local tween =
+            TS:Create(
+            game.Players.LocalPlayer.Character.HumanoidRootPart,
+            TweenInfo.new(0.15),
+            {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPar.CFrame * CFrame.new(0, 0, 0)}
+        )
+        rutpart.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        CamCFrame = workspace.Camera.CFrame
+        CamLook = CamCFrame.LookVector
+        Angle = -math.atan2(CamLook.Z, CamLook.X) + math.rad(40)
+        local CFramePos = CFrame.new(rutpart.Position) * CFrame.Angles(0, Angle + 180, 0)
+        rutpart.CFrame = CFramePos
+        spaceHeld = UserInputService:IsKeyDown(Enum.KeyCode.Space)
+        if spaceHeld == true then
+            if workspace:FindFirstChild(plr.Name) then
+                if plr.Character:FindFirstChild("Humanoid") then
+                    n = 1
+                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                    local TS = game:GetService("TweenService")
+                    if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                        x = 0
+                        y = 0
+                        z = 0
+                    end
+                    if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                        if getgenv().asd == true then
+                            x = x + 5
+                        elseif getgenv().asd == false then
+                            x = x - 5
+                        else
+                            z = z + 5
+                        end
+                    end
+                    if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                        if getgenv().asd == true then
+                            x = x - 5
+                        elseif getgenv().asd == false then
+                            x = x + 5
+                        else
+                            z = z - 5
+                        end
+                    end
+                    if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                        if getgenv().asd == true then
+                            z = z - 5
+                        elseif getgenv().asd == false then
+                            z = z + 5
+                        else
+                            x = x + 5
+                        end
+                    end
+                    if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                        if getgenv().asd == true then
+                            z = z + 5
+                        elseif getgenv().asd == false then
+                            z = z - 5
+                        else
+                            x = x - 5
+                        end
+                    end
+                    tween =
+                        TS:Create(
+                        game.Players.LocalPlayer.Character.HumanoidRootPart,
+                        TweenInfo.new(0.15),
+                        {CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(x, y, z)}
+                    )
+                    tween:Play()
+                    C.speedupdate = function()
+                    end
+                end
+            end
+        end
+        rutpart:Destroy()
+    end
+) --
